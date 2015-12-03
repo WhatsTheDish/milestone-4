@@ -1,0 +1,100 @@
+<html>
+
+<!--
+Lectures 11 and 12 - CSC 210 Fall 2015
+Philip Guo
+This is the frontend for the Fakebook web app, which demonstrates CRUD
+with Ajax using a REST API. (../server.js is the backend)
+Start ../server.js and then visit this URL to view this webpage:
+http://localhost:3000/createaccount.html
+-->
+
+<head>
+<title>What's The Dish</title>
+
+<script src="jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  
+  console.log("Checking if logged in!");
+  if(localStorage["userName"] != null) {
+    setTimeout(function(){
+        window.location="http://localhost:3000/loggedin.html";
+    },0);
+  }
+  
+
+  // define a generic Ajax error handler:
+  // http://api.jquery.com/ajaxerror/
+  $(document).ajaxError(function() {
+    alert("Sorry, there was a problem!");
+  });
+
+  $("#loginButton").click(function() {
+    console.log($("#nameBox").val());
+    // From: http://learn.jquery.com/ajax/jquery-ajax-methods/
+    // Using the core $.ajax() method
+    $.ajax({
+      // The URL for the request -- note the simple REST API!
+      // all URLs are relative to http://localhost:3000/
+      url: "users/" + $("#nameBox").val(),
+      type: "GET",
+      dataType : "JSON", // this URL returns data in JSON format
+
+      success: function( data ) {
+        console.log("You received some data!", data.userName);
+        if (data.userName) {
+          var k = "userName";
+          var v = $("#nameBox").val();
+          localStorage[k] = v;
+          var kk = "allergicToPeanuts";
+          var vv = data.allergicToPeanuts;
+          localStorage[kk] = vv;
+          var kkk = "allergicToMilk";
+          var vvv = data.allergicToMilk;
+          console.log(vvv);
+          localStorage[kkk] = vvv;
+          $("#nameDiv").html("UserName: " + data.userName);
+          setTimeout(function(){
+            window.location="http://localhost:3000/loggedin.html";
+          },0);
+          //$("#ageDiv").html("My job is " + data.job);
+          //$("#profileImage").attr("src", data.pet);
+        }  
+        else{
+          $("#status").html("Error: could not find user!");
+          // clear the profile display
+          $("#nameDiv").html("");
+          //$("#ageDiv").html("");
+          //$("#profileImage").attr("src", "");
+        }
+      },
+    });
+  });
+});
+</script>
+
+</head>
+  <body>
+  <h1>Welcome to What's The Dish!</h1>
+  <h2>Log in: <h2>
+
+    <p>
+    UserName: <input id="nameBox" type="text" size="10"/>
+    </p>
+
+    <p>
+    <button id="loginButton">Log me in</button>
+    </p>
+
+    <!-- empty placeholders -->
+    <div id="nameDiv"></div>
+    <div id="ageDiv"></div>
+    <img id="profileImage" style="width: 300px;"/>
+
+    <hr/>
+
+    <div id="status"></div>
+  </body>
+</html>

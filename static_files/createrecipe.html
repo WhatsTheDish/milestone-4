@@ -1,0 +1,101 @@
+<html>
+
+<!--
+
+Lectures 11 and 12 - CSC 210 Fall 2015
+Philip Guo
+
+This is the frontend for the Fakebook web app, which demonstrates CRUD
+with Ajax using a REST API. (../server.js is the backend)
+
+Start ../server.js and then visit this URL to view this webpage:
+
+http://localhost:3000/createaccount.html
+
+-->
+
+<head>
+<title>What's The Dish</title>
+
+<script src="jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+
+  /* console.log("Checking if logged in!");
+  if(localStorage["userName"] != null) {
+    setTimeout(function(){
+        window.location="http://localhost:3000/loggedin.html";
+    },0);
+  } */
+
+  // define a generic Ajax error handler:
+  // http://api.jquery.com/ajaxerror/
+  $(document).ajaxError(function() {
+    alert("Sorry, there was a problem!");
+  });
+
+
+  $("#createButton").click(function() { 
+
+    $.ajax({
+      // The URL for the request -- note the simple REST API!
+      // all URLs are relative to http://localhost:3000/
+      url: "recipes/",
+      type: "POST",
+      dataType : "text", // this URL returns a plain text string, not JSON
+      data : { title: $("#nameBox").val(), creator: localStorage["userName"],recipe: $("#recipe").val(), allergicToMilk: $("#allergicToMilk").is(":checked"), allergicToPeanut: $("#allergicToPeanut").is(":checked")
+             },
+      success: function( data ) {
+        console.log("You received some data!", data);
+        if (data == 'OK') {
+//Updated upstream
+          /* var k = "userName";
+          var v = $("#nameBox").val();
+          localStorage[k] = v; */
+          $("#status").html("Successfully created a new recipe!");
+          /*setTimeout(function(){
+            window.location="http://localhost:3000/loginpage.html";
+          },0);*/
+          //window.location("http://localhost:3000/shit.html");
+//Stashed changes
+        } 
+        else {
+          $("#status").html("Error: could not create a new recipe or recipe title already exists!");
+        }
+      },
+
+    });
+  });
+});
+
+</script>
+
+</head>
+  <body>
+  <h1>Welcome to What's The Dish!</h1>
+  <div id= "create">
+  <h2>Create Recipe: <h2>
+
+    <p>
+    Title: <input id="nameBox" type="text" size="10"/><br>
+    Recipe: <input id="recipe" type="text" size="10"/><br>
+    <input type="checkbox" id="allergicToMilk">Lactose Intollerent<br>
+    <input type="checkbox" id="allergicToPeanut">Allergy to Peanuts<br>
+    </p>
+
+    <p>
+    <button id="createButton">Create new recipe</button>
+    </p>
+
+    <!-- empty placeholders -->
+    <div id="nameDiv"></div>
+    <div id="ageDiv"></div>
+    <img id="profileImage" style="width: 300px;"/>
+
+    <hr/>
+  <div>
+    <div id="status"></div>
+  </body>
+</html>

@@ -1,0 +1,98 @@
+<html>
+
+<!--
+Lectures 11 and 12 - CSC 210 Fall 2015
+Philip Guo
+This is the frontend for the Fakebook web app, which demonstrates CRUD
+with Ajax using a REST API. (../server.js is the backend)
+Start ../server.js and then visit this URL to view this webpage:
+http://localhost:3000/createaccount.html
+-->
+
+<head>
+<title>What's The Dish</title>
+
+<script src="jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  // define a generic Ajax error handler:
+  // http://api.jquery.com/ajaxerror/
+  $(document).ajaxError(function() {
+    alert("Sorry, there was a problem!");
+  });
+
+  $("#logoutButton").click(function() {
+	console.log("clicked!");
+	$.ajax({
+		url: "users/" + $("#nameBox").val(),
+      type: "GET",
+      dataType : "JSON", // this URL returns data in JSON format
+
+		success: function() {
+	        console.log("You chose to logout!");
+	        localStorage.clear();
+			setTimeout(function(){
+	            window.location="http://localhost:3000/loginpage.html";
+	        },0);
+		},// end of success
+	});//end of ajax	
+  });//end of log out button
+
+  $("#updateButton").click(function() {
+    $.ajax({
+      // The URL for the request -- note the simple REST API!
+      // all URLs are relative to http://localhost:3000/
+      url: "users/" + localStorage["userName"],
+      type: "PUT",
+      dataType : "text", // this URL returns a plain text string, not JSON
+
+      data : { 
+                name: localStorage["userName"],
+                allergicToMilk: $("#allergicToMilk").is(":checked"), 
+                allergicToPeanut: $("#allergicToPeanut").is(":checked")
+             },
+
+      success: function( data ) {
+        console.log("You received some data!", data);
+        if (data == 'OK') {
+          $("#status").html("Successfully updated user");
+        } else {
+          $("#status").html("Error: could not update user");
+        }
+      },
+    });
+  });
+
+ });//end of function
+</script>
+
+</head>
+  <body>
+  	<h1>Welcome to What's The Dish!</h1>
+  	<div id ="loggedInAs"></div>
+    <h2>My Current Allergies: </h2>
+    <div id ="allergicToPeanuts"></div>
+    <div id ="allergicToMilk"></div>
+  	<p>
+    <button id="logoutButton">Log me out</button>
+    <h2> Update my Allergies: </h2>
+    <input type="checkbox" id="allergicToMilk">Lactose Intollerent<br>
+    <input type="checkbox" id="allergicToPeanut">Allergy to Peanuts<br>
+    <button id="updateButton">Update my Allergies</button>
+    </p>
+    <div id="status"></div>
+  </body>
+</html>
+
+<script type="text/javascript">
+	document.getElementById("loggedInAs").innerHTML = "Logged in as: " + localStorage["userName"];
+  document.getElementById("allergicToPeanuts").innerHTML = "Allergic to Peanuts: " + localStorage["allergicToPeanuts"];
+  document.getElementById("allergicToMilk").innerHTML = "Allergic to Milk: " + localStorage["allergicToMilk"];
+</script>
+
+
+
+
+
+
