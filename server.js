@@ -247,7 +247,7 @@ app.get('/recipes', function (req, res) {
   //console.log(req);
   //console.log("BLAH 2: " + req.body.title);
   
-  db.all("SELECT * FROM recipes WHERE allergicToMilk = 'true' AND allergicToPeanuts = 'true'", function(err, row){
+  db.all("SELECT * FROM recipes WHERE allergicToMilk = '"+ milkCheck +"' AND allergicToPeanuts ='"+peanutCheck+"'",function(err, row){
     if(err) throw err;
     console.log(row);
     if(row == undefined){
