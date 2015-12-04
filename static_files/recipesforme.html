@@ -16,7 +16,7 @@ http://localhost:3000/createaccount.html
 
 <script type="text/javascript">
 $(document).ready(function() {
-  
+
   setTimeout(function(){
    window.location.reload(1);
 }, 5000);
@@ -65,6 +65,16 @@ $(document).ready(function() {
             var recipe = document.createTextNode("Recipe: " + data[i].recipe);
             ppp.appendChild(recipe);
             document.getElementById("recipeDiv").appendChild(ppp);
+
+            var pppp = document.createElement("p");
+            var milkAllergy = document.createTextNode("Milk Allergy Friendly: " + data[i].allergicToMilk);
+            pppp.appendChild(milkAllergy);
+            document.getElementById("recipeDiv").appendChild(pppp);
+
+            var ppppp = document.createElement("p");
+            var peanutAllergy = document.createTextNode("Peanut Allergy friendly: " + data[i].allergicToPeanuts);
+            ppppp.appendChild(peanutAllergy);
+            document.getElementById("recipeDiv").appendChild(ppppp);
 
             var space = document.createElement("br");
             var nothing = document.createTextNode("");
