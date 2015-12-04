@@ -16,6 +16,9 @@
 
 var express = require('express');
 var app = express();
+//FROM: http://stackoverflow.com/questions/10358100/how-to-access-localstorage-in-node-js
+//var LocalStorage = require('node-localstorage').LocalStorage,
+//localStorage = new LocalStorage('./scratch');
 //var userPeanutsInfo;
 //var userMilkInfo;
 
@@ -241,6 +244,8 @@ app.get('/users/*', function (req, res) {
 //   curl -X GET http://localhost:3000/users/Philip
 //   curl -X GET http://localhost:3000/users/Jane
 app.get('/recipes', function (req, res) {
+  
+  //console.log(user);
   var milkCheck = true; //true
   var peanutCheck = true;
   console.log(milkCheck);
