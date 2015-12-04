@@ -1,0 +1,128 @@
+<html>
+
+<!--
+Lectures 11 and 12 - CSC 210 Fall 2015
+Philip Guo
+This is the frontend for the Fakebook web app, which demonstrates CRUD
+with Ajax using a REST API. (../server.js is the backend)
+Start ../server.js and then visit this URL to view this webpage:
+http://localhost:3000/createaccount.html
+-->
+
+<head>
+<title>What's The Dish</title>
+
+<script src="jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  
+  setTimeout(function(){
+   window.location.reload(1);
+}, 5000);
+  /*
+  console.log("Checking if logged in!");
+  if(localStorage["userName"] != null) {
+    setTimeout(function(){
+        window.location="http://localhost:3000/loggedin.html";
+    },0);
+  }
+  */
+  
+  // define a generic Ajax error handler:
+  // http://api.jquery.com/ajaxerror/
+  $(document).ajaxError(function() {
+    alert("Sorry, there was a problem!");
+  });
+
+    //console.log($("#nameBox").val());
+    // From: http://learn.jquery.com/ajax/jquery-ajax-methods/
+    // Using the core $.ajax() method
+    $.ajax({
+      // The URL for the request -- note the simple REST API!
+      // all URLs are relative to http://localhost:3000/
+      url: "recipes/",
+      type: "GET",
+      dataType : "JSON", // this URL returns data in JSON format
+
+      success: function( data ) {
+        console.log("You received some data!", data);
+        if (data) {
+          console.log("yes we have found recipes");
+          
+          for(i = 0; i < data.length; i++){
+            var p = document.createElement("p");
+            var title = document.createTextNode("Title: " + data[i].title);
+            p.appendChild(title);
+            document.getElementById("recipeDiv").appendChild(p);
+
+            var pp = document.createElement("p");
+            var creator = document.createTextNode("Creator: " + data[i].creator);
+            pp.appendChild(creator);
+            document.getElementById("recipeDiv").appendChild(pp);
+
+            var ppp = document.createElement("p");
+            var recipe = document.createTextNode("Recipe: " + data[i].recipe);
+            ppp.appendChild(recipe);
+            document.getElementById("recipeDiv").appendChild(ppp);
+
+            var space = document.createElement("br");
+            var nothing = document.createTextNode("");
+            space.appendChild(nothing);
+            document.getElementById("recipeDiv").appendChild(space);
+            //console.log(p);
+            //var creator = document.createTextNode(data[i].creator);
+            //p.appendChild(creator);
+            //var recipe = document.createTextNode(data[i].recipe);
+            //p.appendChild(recipe);
+           //$("#creatorDiv").html(data[i].creator);
+           //$("#recipeDiv").html(data[i].recipe);
+           //$("#recipesDiv").html(data[0].allergicToMilk);
+         }          
+          /*
+          var k = "userName";
+          var v = $("#nameBox").val();
+          localStorage[k] = v;
+          var kk = "allergicToPeanuts";
+          var vv = data.allergicToPeanuts;
+          localStorage[kk] = vv;
+          var kkk = "allergicToMilk";
+          var vvv = data.allergicToMilk;
+          console.log(vvv);
+          localStorage[kkk] = vvv;
+          $("#nameDiv").html("UserName: " + data.userName);
+          setTimeout(function(){
+            window.location="http://localhost:3000/loggedin.html";
+          },0);
+          //$("#ageDiv").html("My job is " + data.job);
+          //$("#profileImage").attr("src", data.pet);
+          */
+        }  
+        else{
+          $("#status").html("Error: could not find recipes!");
+          // clear the profile display
+          $("#nameDiv").html("");
+          //$("#ageDiv").html("");
+          //$("#profileImage").attr("src", "");
+        }
+      },
+    });
+});
+</script>
+
+</head>
+  <body>
+  <h1>Welcome to What's The Dish!</h1>
+  <h2>Recipes for me: <h2>
+
+    
+
+    <!-- empty placeholders -->
+    <h5 id="recipeDiv"></h5>
+    <img id="profileImage" style="width: 300px;"/>
+
+    <hr/>
+
+    <div id="status"></div>
+  </body>
+</html>

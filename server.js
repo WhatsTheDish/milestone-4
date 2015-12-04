@@ -16,6 +16,8 @@
 
 var express = require('express');
 var app = express();
+//var userPeanutsInfo;
+//var userMilkInfo;
 
 // required to support parsing of POST request bodies
 var bodyParser = require('body-parser');
@@ -139,12 +141,12 @@ $ curl -X GET http://localhost:3000/users/Carol
 app.post('/users', function (req, res) {
   var postBody = req.body;
   var myName = postBody.name;
-  var Peanuts = postBody.allergicToPeanut;
-  var Milk = postBody.allergicToMilk;
+  //window.userPeanutsInfo = postBody.allergicToPeanut;
+  //window.userMilkInfo = postBody.allergicToMilk;
 
-  console.log(Peanuts);
-  console.log(Milk);
-  console.log(myName);
+  //console.log(Peanuts);
+  //console.log(Milk);
+  ///console.log(myName);
   // must have a name!
   if (!myName) {
     res.send('ERROR');
@@ -178,6 +180,7 @@ app.post('/recipes', function (req, res) {
 
   console.log(postBody);
   console.log(Title);
+  console.log(req);
   // must have a name!
   if (!Title) {
     res.send('ERROR');
@@ -219,9 +222,10 @@ app.post('/recipes', function (req, res) {
 //   curl -X GET http://localhost:3000/users/Jane
 app.get('/users/*', function (req, res) {
   var nameToLookup = req.params[0];
+  console.log("BLAH: " + req.body);
   db.all("SELECT * FROM users WHERE userName = ?", nameToLookup, function(err, row){
     if(err) throw err;
-    console.log(row[0]);
+    //console.log(row[0]);
     if(row[0] == undefined){
        res.send("{}"); 
     }
@@ -229,6 +233,31 @@ app.get('/users/*', function (req, res) {
       res.send(row[0]);
     }
   });
+});
+
+// READ suitable recipes for a user
+//
+// To test with curl, run:
+//   curl -X GET http://localhost:3000/users/Philip
+//   curl -X GET http://localhost:3000/users/Jane
+app.get('/recipes', function (req, res) {
+  var milkCheck = true; //true
+  var peanutCheck = true;
+  console.log(milkCheck);
+  //console.log(req);
+  //console.log("BLAH 2: " + req.body.title);
+  
+  db.all("SELECT * FROM recipes WHERE allergicToMilk = 'true' AND allergicToPeanuts = 'true'", function(err, row){
+    if(err) throw err;
+    console.log(row);
+    if(row == undefined){
+       res.send("{}"); 
+    }
+    else{
+      res.send(row);
+    }
+  });
+
 });
 
 // UPDATE a user's profile with the data given in POST
