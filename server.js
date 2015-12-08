@@ -245,13 +245,9 @@ app.get('/users/*', function (req, res) {
 //   curl -X GET http://localhost:3000/users/Jane
 app.get('/recipes', function (req, res) {
   
-  //console.log(user);
-  var milkCheck = true; //true
-  var peanutCheck = true;
-  console.log(milkCheck);
-  //console.log(req);
-  //console.log("BLAH 2: " + req.body.title);
-  
+  var milkCheck = req.query.milk; 
+  var peanutCheck = req.query.peanuts;
+  console.log(req.query.milk);
   db.all("SELECT * FROM recipes WHERE allergicToMilk = '"+ milkCheck +"' AND allergicToPeanuts ='"+peanutCheck+"'",function(err, row){
     if(err) throw err;
     console.log(row);
