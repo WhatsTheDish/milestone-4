@@ -202,7 +202,7 @@ app.post('/recipes', function (req, res) {
   // otherwise add the user to the database by pushing (appending)
   // postBody to the fakeDatabase list
   var stmt = db.prepare("INSERT INTO recipes VALUES(?, ?, ?, ?, ?)");
-  stmt.run(postBody.title, postBody.creator, postBody.recipe, postBody.allergicToPeanut, postBody.allergicToMilk, function(error){
+  stmt.run(postBody.title, postBody.creator, postBody.recipe, postBody.allergicToMilk, postBody.allergicToPeanut, function(error){
     if(error){
       console.log(error.message);
       res.send('DUPLICATE');

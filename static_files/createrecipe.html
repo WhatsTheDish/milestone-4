@@ -50,16 +50,7 @@ $(document).ready(function() {
       success: function( data ) {
         console.log("You received some data!", data);
         if (data == 'OK') {
-//Updated upstream
-          /* var k = "userName";
-          var v = $("#nameBox").val();
-          localStorage[k] = v; */
           $("#status").html("Successfully created a new recipe!");
-          /*setTimeout(function(){
-            window.location="http://localhost:3000/loginpage.html";
-          },0);*/
-          //window.location("http://localhost:3000/shit.html");
-//Stashed changes
         } 
         else {
           $("#status").html("Error: could not create a new recipe or recipe title already exists!");
@@ -96,6 +87,9 @@ $(document).ready(function() {
 
     <hr/>
   <div>
+  <a href="recipesforme.html">Find recipes for me!</a>
+  <a href="loggedin.html">Return to my homepage</a>
+
     <div id="status"></div>
   </body>
 </html>
