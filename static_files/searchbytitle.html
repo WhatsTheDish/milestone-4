@@ -15,15 +15,16 @@ http://localhost:3000/createaccount.html
 <script src="jquery-1.11.3.min.js"></script>
 
 <script type="text/javascript">
-var count = 0;
 
-$(document).ready(function worker() {
+$(document).ready(function() {
    //window.location.reload(1);
-
+   $("#searchButton").click(function worker(){
+    console.log("YUP!");
    $.ajax({
+
       // The URL for the request -- note the simple REST API!
       // all URLs are relative to http://localhost:3000/
-      url: "recipes/",
+      url: "recipes/searchtitle/" + $("#queryBox").val(),
       type: "GET",
       data:{milk: localStorage["allergicToMilk"], 
             peanuts: localStorage["allergicToPeanuts"]
@@ -37,8 +38,11 @@ $(document).ready(function worker() {
         console.log("You received some data!", data);
         if (data) {
           console.log("yes we have found recipes");
-          
-          for(i = count; i < data.length; i++){
+          console.log(data);
+          document.getElementById("recipeDiv").innerHTML = "";
+          for(i = 0; i < data.length; i++){
+
+
             var p = document.createElement("p");
             var title = document.createTextNode("Title: " + data[i].title);
             p.appendChild(title);
@@ -68,9 +72,8 @@ $(document).ready(function worker() {
             var nothing = document.createTextNode("");
             space.appendChild(nothing);
             document.getElementById("recipeDiv").appendChild(space);
-            count++;
          }          
-          setTimeout(worker, 1000);
+          //setTimeout(worker, 1000);
         }  
         else{
           $("#status").html("Error: could not find recipes!");
@@ -80,6 +83,7 @@ $(document).ready(function worker() {
           //$("#profileImage").attr("src", "");
         }
       },
+    });
     });
 
   /*
@@ -107,9 +111,15 @@ $(document).ready(function worker() {
 </head>
   <body>
   <h1>Welcome to What's The Dish!</h1>
-  <h2>Recipes for me: <h2>
+  <h2>Search Recipe by Title: <h2>
 
+    <p>
+    Title Search: <input id="queryBox" type="text" size="10"/>
+    </p>
 
+    <p>
+    <button id="searchButton">Search</button>
+    </p>
     
 
     <!-- empty placeholders -->
@@ -119,8 +129,6 @@ $(document).ready(function worker() {
     <hr/>
     <a href="loggedin.html">Return to my homepage</a>
     <a href="createrecipe.html">Create a new recipe for the world!</a>
-        <a href="searchbytitle.html">Search Recipes by title!</a>
-
     <div id="status"></div>
   </body>
 </html>

@@ -261,6 +261,28 @@ app.get('/recipes', function (req, res) {
 
 });
 
+// READ suitable recipes for a user ACCORDING TO SEARCH
+//
+// To test with curl, run:
+//   curl -X GET http://localhost:3000/users/Philip
+//   curl -X GET http://localhost:3000/users/Jane
+app.get('/recipes/searchtitle/*', function (req, res) {
+  
+  var query = req.params[0];
+  console.log(query);
+  db.all("SELECT * FROM recipes WHERE title LIKE'%"+ query +"%'",function(err, row){
+    if(err) throw err;
+    console.log("RESULTS: " + row);
+    if(row == ""){
+       res.send("{}"); 
+    }
+    else{
+      res.send(row);
+    }
+  });
+
+});
+
 // UPDATE a user's profile with the data given in POST
 //
 // To test with curl, run:
