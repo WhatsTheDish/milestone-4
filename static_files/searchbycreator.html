@@ -15,18 +15,16 @@ http://localhost:3000/createaccount.html
 <script src="jquery-1.11.3.min.js"></script>
 
 <script type="text/javascript">
-$(document).ready(function() {
-  // define a generic Ajax error handler:
-  // http://api.jquery.com/ajaxerror/
-  $(document).ajaxError(function() {
-    alert("Sorry, there was a problem!");
-  });
 
-  $.ajax({
+$(document).ready(function() {
+   //window.location.reload(1);
+   $("#searchButton").click(function worker(){
+    console.log("YUP!");
+   $.ajax({
 
       // The URL for the request -- note the simple REST API!
       // all URLs are relative to http://localhost:3000/
-      url: "recipes/searchcreator/" + localStorage["userName"],
+      url: "recipes/searchcreator/" + $("#queryBox").val(),
       type: "GET",
       data:{milk: localStorage["allergicToMilk"], 
             peanuts: localStorage["allergicToPeanuts"]
@@ -86,82 +84,55 @@ $(document).ready(function() {
         }
       },
     });
-
-  $("#logoutButton").click(function() {
-	console.log("clicked!");
-	$.ajax({
-		url: "users/" + $("#nameBox").val(),
-      type: "GET",
-      dataType : "JSON", // this URL returns data in JSON format
-
-		success: function() {
-	        console.log("You chose to logout!");
-	        localStorage.clear();
-			setTimeout(function(){
-	            window.location="http://localhost:3000/loginpage.html";
-	        },0);
-		},// end of success
-	});//end of ajax	
-  });//end of log out button
-
-  $("#updateButton").click(function() {
-    $.ajax({
-      // The URL for the request -- note the simple REST API!
-      // all URLs are relative to http://localhost:3000/
-      url: "users/" + localStorage["userName"],
-      type: "PUT",
-      dataType : "text", // this URL returns a plain text string, not JSON
-
-      data : { 
-                name: localStorage["userName"],
-                allergicToMilk: $("#allergicToMilk").is(":checked"), 
-                allergicToPeanut: $("#allergicToPeanut").is(":checked")
-             },
-
-      success: function( data ) {
-        console.log("You received some data!", data);
-        if (data == 'OK') {
-          $("#status").html("Successfully updated user");
-        } else {
-          $("#status").html("Error: could not update user");
-        }
-      },
     });
+
+  /*
+  console.log("Checking if logged in!");
+  if(localStorage["userName"] != null) {
+    setTimeout(function(){
+        window.location="http://localhost:3000/loggedin.html";
+    },0);
+  }
+  */
+  
+  // define a generic Ajax error handler:
+  // http://api.jquery.com/ajaxerror/
+  $(document).ajaxError(function() {
+    alert("Sorry, there was a problem!");
   });
- });//end of function
+
+    //console.log($("#nameBox").val());
+    // From: http://learn.jquery.com/ajax/jquery-ajax-methods/
+    // Using the core $.ajax() method
+    
+});
 </script>
 
 </head>
   <body>
-  	<h1>Welcome to What's The Dish!</h1>
-  	<div id ="loggedInAs"></div>
-    <h2>My Current Allergies: </h2>
-      <div id ="allergicToPeanuts"></div>
-      <div id ="allergicToMilk"></div>
+  <h1>Welcome to What's The Dish!</h1>
+  <h2>Search Recipe by Creator: <h2>
 
-  	<p>
-      <button id="logoutButton">Log me out</button>
-    <h2> Update my Allergies: </h2>
-      <input type="checkbox" id="allergicToMilk">Lactose Intollerent<br>
-      <input type="checkbox" id="allergicToPeanut">Allergy to Peanuts<br>
-      <button id="updateButton">Update my Allergies</button>
+    <p>
+    Creator Search: <input id="queryBox" type="text" size="10"/>
     </p>
 
-    <a href="recipesforme.html">Generate recipes based on my allergies!</a>
+    <p>
+    <button id="searchButton">Search</button>
+    </p>
+    
+
+    <!-- empty placeholders -->
+    <h5 id="recipeDiv"></h5>
+    <img id="profileImage" style="width: 300px;"/>
+
+    <hr/>
+    <a href="loggedin.html">Return to my homepage</a>
     <a href="createrecipe.html">Create a new recipe for the world!</a>
-    <a href="searchbytitle.html">Search for a recipe!</a>
+    <p>
+    <a href="searchbytitle.html">Search Recipes by title!</a>
+    <a href="searchbycontent.html">Search Recipes by content!</a>
+    <a href="searchbyrestrictions.html">Search Recipes by restrictions!</a>
     <div id="status"></div>
   </body>
 </html>
-
-<script type="text/javascript">
-	document.getElementById("loggedInAs").innerHTML = "Logged in as: " + localStorage["userName"];
-  document.getElementById("allergicToPeanuts").innerHTML = "Allergic to Peanuts: " + localStorage["allergicToPeanuts"];
-  document.getElementById("allergicToMilk").innerHTML = "Allergic to Milk: " + localStorage["allergicToMilk"];
-</script>
-
-
-
-
-
-
