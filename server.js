@@ -121,14 +121,11 @@ app.post('/recipes', function (req, res) {
   var Recipe = postBody.recipe;
   var Peanuts = postBody.allergicToPeanut;
   var Milk = postBody.allergicToMilk;
-<<<<<<< Updated upstream
-
-=======
   
   console.log(postBody);
   console.log(Title);
   console.log(req);
->>>>>>> Stashed changes
+
   // must have a name!
   if (!Title) {
     res.send('ERROR');
