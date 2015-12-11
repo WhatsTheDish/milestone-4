@@ -30,7 +30,11 @@ $(document).ready(function() {
       url: "recipes/searchcreator/" + localStorage["userName"],
       type: "GET",
       data:{milk: localStorage["allergicToMilk"], 
-            peanuts: localStorage["allergicToPeanuts"]
+            peanuts: localStorage["allergicToPeanuts"],
+            gluten: localStorage["gluten"],
+            kosher: localStorage["kosher"],
+            halaal: localStorage["halaal"],
+            vegetarian: localStorage["vegetarian"]
           },
       //params: 1;
       dataType : "JSON", // this URL returns data in JSON format
@@ -62,14 +66,34 @@ $(document).ready(function() {
             document.getElementById("recipeDiv").appendChild(ppp);
 
             var pppp = document.createElement("p");
-            var milkAllergy = document.createTextNode("Milk Allergy Friendly: " + data[i].allergicToMilk);
+            var milkAllergy = document.createTextNode("Lactose Intollerent Friendly: " + data[i].allergicToMilk);
             pppp.appendChild(milkAllergy);
             document.getElementById("recipeDiv").appendChild(pppp);
 
             var ppppp = document.createElement("p");
-            var peanutAllergy = document.createTextNode("Peanut Allergy friendly: " + data[i].allergicToPeanuts);
+            var peanutAllergy = document.createTextNode("Peanut Allergy Friendly: " + data[i].allergicToPeanuts);
             ppppp.appendChild(peanutAllergy);
             document.getElementById("recipeDiv").appendChild(ppppp);
+
+            var p1 = document.createElement("p");
+            var kosher = document.createTextNode("Kosher: " + data[i].kosher);
+            p1.appendChild(kosher);
+            document.getElementById("recipeDiv").appendChild(p1);
+
+            var p2 = document.createElement("p");
+            var halaal = document.createTextNode("Halaal: " + data[i].halaal);
+            p2.appendChild(halaal);
+            document.getElementById("recipeDiv").appendChild(p2);
+
+            var p3 = document.createElement("p");
+            var vegetarian = document.createTextNode("Vegetarian: " + data[i].vegetarian);
+            p3.appendChild(vegetarian);
+            document.getElementById("recipeDiv").appendChild(p3);
+
+            var p4 = document.createElement("p");
+            var gluten = document.createTextNode("Gluten Free: " + data[i].gluten);
+            p4.appendChild(gluten);
+            document.getElementById("recipeDiv").appendChild(p4);
 
             var space = document.createElement("br");
             var nothing = document.createTextNode("");
@@ -89,20 +113,20 @@ $(document).ready(function() {
     });
 
   $("#logoutButton").click(function() {
-	console.log("clicked!");
-	$.ajax({
-		url: "users/" + $("#nameBox").val(),
+  console.log("clicked!");
+  $.ajax({
+    url: "users/" + $("#nameBox").val(),
       type: "GET",
       dataType : "JSON", // this URL returns data in JSON format
 
-		success: function() {
-	        console.log("You chose to logout!");
-	        localStorage.clear();
-			setTimeout(function(){
-	            window.location="http://localhost:3000/loginpage.html";
-	        },0);
-		},// end of success
-	});//end of ajax	
+    success: function() {
+          console.log("You chose to logout!");
+          localStorage.clear();
+      setTimeout(function(){
+              window.location="http://localhost:3000/loginpage.html";
+          },0);
+    },// end of success
+  });//end of ajax  
   });//end of log out button
 
   $("#updateButton").click(function() {
@@ -116,7 +140,11 @@ $(document).ready(function() {
       data : { 
                 name: localStorage["userName"],
                 allergicToMilk: $("#allergicToMilk").is(":checked"), 
-                allergicToPeanut: $("#allergicToPeanut").is(":checked")
+                allergicToPeanut: $("#allergicToPeanut").is(":checked"),
+                kosher: $("kosher").is(":checked"),
+                halaal: $("halaal").is(":checked"),
+                vegitarian: $("vegetarian").is("vegetarian"),
+                gluten: $("gluten").is("gluten")
              },
 
       success: function( data ) {
@@ -134,18 +162,22 @@ $(document).ready(function() {
 
 </head>
   <body>
-  	<h1>Welcome to What's The Dish!</h1>
-  	<div id ="loggedInAs"></div>
+    <h1>Welcome to What's The Dish!</h1>
+    <div id ="loggedInAs"></div>
     <button id="logoutButton">Log me out</button>
-    <h2>My Allergies: </h2>
+    <h2>My Current Allergies: </h2>
       <div id ="allergicToPeanuts"></div>
       <div id ="allergicToMilk"></div>
+      <div id = "kosher"></div>
+      <div id = "halaal"></div>
+      <div id = "vegetarian"></div>
+      <div id = "gluten"></div>
 
       <h2>My Recipes:</h2>
       <div id="recipeDiv"></div>
 
      <!-- 
-  	<p>
+    <p>
       
     <h2> Update my Allergies: </h2>
       <input type="checkbox" id="allergicToMilk">Lactose Intollerent<br>
@@ -171,9 +203,13 @@ $(document).ready(function() {
 </html>
 
 <script type="text/javascript">
-	document.getElementById("loggedInAs").innerHTML = "Logged in as: " + localStorage["userName"];
+  document.getElementById("loggedInAs").innerHTML = "Logged in as: " + localStorage["userName"];
   document.getElementById("allergicToPeanuts").innerHTML = "Allergic to Peanuts: " + localStorage["allergicToPeanuts"];
-  document.getElementById("allergicToMilk").innerHTML = "Allergic to Milk: " + localStorage["allergicToMilk"];
+  document.getElementById("allergicToMilk").innerHTML = "Lactose Intollerant: " + localStorage["allergicToMilk"];
+  document.getElementById("kosher").innerHTML = "Kosher: " + localStorage["kosher"];
+  document.getElementById("halaal").innerHTML = "Halaal: " + localStorage["halaal"];
+  document.getElementById("vegetarian").innerHTML = "Vegetarian: " + localStorage["vegetarian"];
+  document.getElementById("gluten").innerHTML = "Gluten Free: " + localStorage["gluten"];
 </script>
 
 
