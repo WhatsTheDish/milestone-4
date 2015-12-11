@@ -44,7 +44,7 @@ db.serialize(function() {
   if(!exists) {
     //db.run("CREATE TABLE Stuff (thing TEXT)");
     db.run("CREATE TABLE users(userName TEXT primary key, password TEXT, allergicToMilk BOOLEAN, allergicToPeanuts BOOLEAN, kosher BOOLEAN, halaal BOOLEAN, vegetarian BOOLEAN, gluten BOOLEAN)");
-    db.run("CREATE TABLE recipes(title TEXT primary key, creator TEXT, recipe TEXT, allergicToMilk BOOLEAN, allergicToPeanuts BOOLEAN)");
+    db.run("CREATE TABLE recipes(title TEXT primary key, creator TEXT, recipe TEXT, allergicToMilk BOOLEAN, allergicToPeanuts BOOLEAN, kosher BOOLEAN, halaal BOOLEAN, vegetarian BOOLEAN, gluten BOOLEAN)");
   }
   
   //var stmt = db.prepare("INSERT INTO recipes VALUES (?, ?, ?, ?, ?)");
@@ -56,8 +56,8 @@ db.serialize(function() {
   console.log(row.id + ": "+ row.userName + " " + row.password + " " + row.allergicToMilk + " " + row.allergicToPeanuts + " " + row.kosher + " " + row.halaal + " " + row.vegetarian + " " + row.gluten);
   });
 
-  db.each("SELECT rowid AS id, title, creator, recipe, allergicToMilk, allergicToPeanuts FROM recipes", function(err, row) {
-  console.log(row.id + ": " + row.title + " " + row.creator + " " + row.recipe + " " + row.allergicToMilk + " " + row.allergicToPeanuts);
+  db.each("SELECT rowid AS id, title, creator, recipe, allergicToMilk, allergicToPeanuts, kosher, halaal, vegetarian, gluten FROM recipes", function(err, row) {
+  console.log(row.id + ": " + row.title + " " + row.creator + " " + row.recipe + " " + row.allergicToMilk + " " + row.allergicToPeanuts + " " + row.kosher + " " + row.halaal + " " + row.vegetarian + " " + row.gluten);
   });
 });
 
@@ -131,8 +131,9 @@ app.post('/recipes', function (req, res) {
     res.send('ERROR');
     return; // return early!
   }
-  var stmt = db.prepare("INSERT INTO recipes VALUES(?, ?, ?, ?, ?)");
-  stmt.run(postBody.title, postBody.creator, postBody.recipe, postBody.allergicToMilk, postBody.allergicToPeanut, function(error){
+  var stmt = db.prepare("INSERT INTO recipes VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+  stmt.run(postBody.title, postBody.creator, postBody.recipe, postBody.allergicToMilk, postBody.allergicToPeanut, postBody.kosher, 
+    postBody.halaal, postBody.vegetarian, postBody.gluten, function(error){
     if(error){
       console.log(error.message);
       res.send('DUPLICATE');
