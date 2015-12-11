@@ -196,7 +196,7 @@ app.delete('/recipes/delete/*', function (req, res) {
 app.get('/users/*', function (req, res) {
   
   var nameToLookup = req.params[0];
-  console.log("BLAH: " + req.body);
+  //console.log("BLAH: " + req.body);
   db.all("SELECT * FROM users WHERE userName = ?", nameToLookup, function(err, row){
     if(err) throw err;
     //console.log(row[0]);
@@ -214,10 +214,17 @@ app.get('/users/*', function (req, res) {
 app.get('/recipes', function (req, res) {
   var milkCheck = req.query.milk; 
   var peanutCheck = req.query.peanuts;
+  var kosherCheck = req.query.kosher;
+  var halaalCheck = req.query.halaal;
+  var vegetarianCheck = req.query.vegetarian;
+  var glutenCheck = req.query.gluten;
+
   console.log(req.query.milk);
 
   var test = req.params[0];
   console.log("Test: ", test);
+
+  //CHECK WITH JEFF THAT THIS IS OK ///////////////////////////////////////////////////////////////////////
   
   //console.log(user);
   var milkCheck = true; //true
@@ -226,7 +233,9 @@ app.get('/recipes', function (req, res) {
   //console.log(req);
   //console.log("BLAH 2: " + req.body.title);
 
-  db.all("SELECT * FROM recipes WHERE allergicToMilk = '"+ milkCheck +"' AND allergicToPeanuts ='"+peanutCheck+"'",function(err, row){
+  db.all("SELECT * FROM recipes WHERE allergicToMilk = "+ milkCheck + " AND allergicToPeanuts = "+ peanutCheck +
+    "AND kosher = " + kosherCheck + "AND halaal = " + halaalCheck + "AND vegetarian = " + vegetarianCheck + 
+    "AND gluten = " + glutenCheck, function(err, row){
     if(err) throw err;
     console.log(row);
     if(row == undefined){
@@ -299,9 +308,13 @@ app.get('/recipes/searchcontent/*', function (req, res) {
 app.put('/users/*', function (req, res) {
   var milkChange = req.body.allergicToMilk;
   var peanutChange = req.body.allergicToPeanut;
+  var kosherChange = req.body.kosherChange;
+  var halaalChange = req.body.halaalChange;
+  var vegetarianChange = req.body.vegetarianChange;
+  var glutenChange = req.body.glutenChange;
   var nameToLookup = req.params[0];
-  var stmt = db.prepare("UPDATE users SET allergicToMilk=?, allergicToPeanuts=? WHERE userName=?");
-  stmt.run(milkChange, peanutChange, nameToLookup, function(err){
+  var stmt = db.prepare("UPDATE users SET allergicToMilk=?, allergicToPeanuts=?, kosher=?, halaal=?, vegetarian=?, gluten=? WHERE userName=?");
+  stmt.run(milkChange, peanutChange, kosherChange, halaalChange, vegetarianChange, glutenChange, nameToLookup, function(err){
     if(err){
       console.log(err.message);
       res.send('ERROR'); 
