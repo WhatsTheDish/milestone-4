@@ -21,6 +21,7 @@ $(document).ready(function() {
    //window.location.reload(1);
 
   $("#searchButton").click(function worker(){ 
+    document.getElementById("recipeDiv").innerHTML = "";
    $.ajax({
       // The URL for the request -- note the simple REST API!
       // all URLs are relative to http://localhost:3000/
