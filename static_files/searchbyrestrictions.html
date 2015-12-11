@@ -39,6 +39,9 @@ $(document).ready(function() {
         console.log("You received some data!", data);
         if (data) {
           console.log("yes we have found recipes");
+          if(data.length == undefined){
+                document.getElementById("recipeDiv").innerHTML = "No results. Try again!";
+          }
           
           for(i = 0; i < data.length; i++){
             var p = document.createElement("p");

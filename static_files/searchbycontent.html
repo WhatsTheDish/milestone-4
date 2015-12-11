@@ -40,6 +40,10 @@ $(document).ready(function() {
           console.log("yes we have found recipes");
           console.log(data);
           document.getElementById("recipeDiv").innerHTML = "";
+          if(data.length == undefined){
+                document.getElementById("recipeDiv").innerHTML = "No results. Try again!";
+          }
+          console.log(data.length);
           for(i = 0; i < data.length; i++){
 
 

@@ -39,7 +39,11 @@ $(document).ready(function() {
         if (data) {
           console.log("yes we have found recipes");
           console.log(data);
+
           document.getElementById("recipeDiv").innerHTML = "";
+          if(data.length == undefined){
+                document.getElementById("recipeDiv").innerHTML = "No results. Try again!";
+          }
           for(i = 0; i < data.length; i++){
 
 
