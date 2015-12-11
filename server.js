@@ -43,8 +43,8 @@ var db = new sqlite3.Database(file);
 db.serialize(function() {
   if(!exists) {
     //db.run("CREATE TABLE Stuff (thing TEXT)");
-    db.run("CREATE TABLE users(userName TEXT primary key, allergicToMilk BOOLEAN, allergicToPeanuts BOOLEAN)");
-    db.run("CREATE TABLE recipes(title TEXT primary key, creator TEXT, recipe TEXT, allergicToMilk BOOLEAN, allergicToPeanuts BOOLEAN)");
+    db.run("CREATE TABLE users(userName TEXT primary key, password TEXT, allergicToMilk BOOLEAN, allergicToPeanuts BOOLEAN, kosher BOOLEAN, halaal BOOLEAN, vegetarian BOOLEAN, gluten BOOLEAN)");
+    db.run("CREATE TABLE recipes(title TEXT primary key, creator TEXT, recipe TEXT, allergicToMilk BOOLEAN, allergicToPeanuts BOOLEAN, kosher BOOLEAN, halaal BOOLEAN, vegetarian BOOLEAN, gluten BOOLEAN)");
   }
   
   //var stmt = db.prepare("INSERT INTO recipes VALUES (?, ?, ?, ?, ?)");
@@ -52,12 +52,12 @@ db.serialize(function() {
   //stmt.run('Pasta Primavera', 'Jeff', 'eggs and water', true, true);
   //stmt.finalize();
  
-  db.each("SELECT rowid AS id, userName, allergicToMilk, allergicToPeanuts FROM users", function(err, row) {
-  console.log(row.id + ": " + row.userName + " " + row.allergicToMilk + " " + row.allergicToPeanuts);
+  db.each("SELECT rowid AS id, userName, password, allergicToMilk, allergicToPeanuts, kosher, halaal, vegetarian, gluten FROM users", function(err, row) {
+  console.log(row.id + ": "+ row.userName + " " + row.password + " " + row.allergicToMilk + " " + row.allergicToPeanuts + " " + row.kosher + " " + row.halaal + " " + row.vegetarian + " " + row.gluten);
   });
 
-  db.each("SELECT rowid AS id, title, creator, recipe, allergicToMilk, allergicToPeanuts FROM recipes", function(err, row) {
-  console.log(row.id + ": " + row.title + " " + row.creator + " " + row.recipe + " " + row.allergicToMilk + " " + row.allergicToPeanuts);
+  db.each("SELECT rowid AS id, title, creator, recipe, allergicToMilk, allergicToPeanuts, kosher, halaal, vegetarian, gluten FROM recipes", function(err, row) {
+  console.log(row.id + ": " + row.title + " " + row.creator + " " + row.recipe + " " + row.allergicToMilk + " " + row.allergicToPeanuts + " " + row.kosher + " " + row.halaal + " " + row.vegetarian + " " + row.gluten);
   });
 });
 
@@ -96,8 +96,9 @@ app.post('/users', function (req, res) {
     res.send('ERROR');
     return; // return early!
   }
-  var stmt = db.prepare("INSERT INTO users VALUES(?, ?, ?)");
-  stmt.run(postBody.name, postBody.allergicToPeanut, postBody.allergicToMilk, function(error){
+  var stmt = db.prepare("INSERT INTO users VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
+  stmt.run(postBody.name, postBody.password, postBody.allergicToPeanut, postBody.allergicToMilk, postBody.kosher, 
+    postBody.halaal, postBody.vegetarian, postBody.gluten, function(error){
     if(error){
       console.log(error.message);
       res.send('DUPLICATE');
@@ -120,14 +121,19 @@ app.post('/recipes', function (req, res) {
   var Recipe = postBody.recipe;
   var Peanuts = postBody.allergicToPeanut;
   var Milk = postBody.allergicToMilk;
+  
+  console.log(postBody);
+  console.log(Title);
+  console.log(req);
 
   // must have a name!
   if (!Title) {
     res.send('ERROR');
     return; // return early!
   }
-  var stmt = db.prepare("INSERT INTO recipes VALUES(?, ?, ?, ?, ?)");
-  stmt.run(postBody.title, postBody.creator, postBody.recipe, postBody.allergicToMilk, postBody.allergicToPeanut, function(error){
+  var stmt = db.prepare("INSERT INTO recipes VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+  stmt.run(postBody.title, postBody.creator, postBody.recipe, postBody.allergicToMilk, postBody.allergicToPeanut, postBody.kosher, 
+    postBody.halaal, postBody.vegetarian, postBody.gluten, function(error){
     if(error){
       console.log(error.message);
       res.send('DUPLICATE');
@@ -188,6 +194,7 @@ app.delete('/recipes/delete/*', function (req, res) {
 // READ profile data for a user
 //
 app.get('/users/*', function (req, res) {
+  
   var nameToLookup = req.params[0];
   console.log("BLAH: " + req.body);
   db.all("SELECT * FROM users WHERE userName = ?", nameToLookup, function(err, row){
@@ -208,6 +215,17 @@ app.get('/recipes', function (req, res) {
   var milkCheck = req.query.milk; 
   var peanutCheck = req.query.peanuts;
   console.log(req.query.milk);
+
+  //var test = req.params[0];
+  //console.log("Test: ", test);
+  
+  //console.log(user);
+ //var milkCheck = true; //true
+  //var peanutCheck = true;
+  //console.log(milkCheck);
+  //console.log(req);
+  //console.log("BLAH 2: " + req.body.title);
+
   db.all("SELECT * FROM recipes WHERE allergicToMilk = '"+ milkCheck +"' AND allergicToPeanuts ='"+peanutCheck+"'",function(err, row){
     if(err) throw err;
     console.log(row);

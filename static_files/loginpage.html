@@ -11,6 +11,7 @@ http://localhost:3000/createaccount.html
 
 <head>
 <title>What's The Dish</title>
+<link rel="stylesheet" href="css/styles.css">
 
 <script src="jquery-1.11.3.min.js"></script>
 
@@ -43,8 +44,8 @@ $(document).ready(function() {
       dataType : "JSON", // this URL returns data in JSON format
 
       success: function( data ) {
-        console.log("You received some data!", data.userName);
-        if (data.userName) {
+        console.log("You received some data!", data.userName, data.password);
+        if (data.userName && (data.password == $("#passwordBox").val())) {
           var k = "userName";
           var v = $("#nameBox").val();
           localStorage[k] = v;
@@ -55,6 +56,23 @@ $(document).ready(function() {
           var vvv = data.allergicToMilk;
           console.log(vvv);
           localStorage[kkk] = vvv;
+
+          var k2 = "kosher";
+          var v2 = data.kosher;
+          localStorage[k2] = v2;
+
+          var k3 = "halaal";
+          var v3 = data.halaal;
+          localStorage[k3] = v3;
+
+          var k4 = "vegetarian";
+          var v4 = data.vegetarian;
+          localStorage[k4] = v4;
+
+          var k5 = "gluten";
+          var v5 = data.gluten;
+          localStorage[k5] = v5;
+
           $("#nameDiv").html("UserName: " + data.userName);
           setTimeout(function(){
             window.location="http://localhost:3000/loggedin.html";
@@ -63,7 +81,7 @@ $(document).ready(function() {
           //$("#profileImage").attr("src", data.pet);
         }  
         else{
-          $("#status").html("Error: could not find user!");
+          $("#status").html("Error: could not find user! Are you sure you typed in your password correctly?");
           // clear the profile display
           $("#nameDiv").html("");
           //$("#ageDiv").html("");
@@ -81,7 +99,8 @@ $(document).ready(function() {
   <h2>Log in: <h2>
 
     <p>
-    UserName: <input id="nameBox" type="text" size="10"/>
+    UserName: <input id="nameBox" type="text" size="10"/> <br>
+    Password: <input id="passwordBox" type="password" size="10"/>
     </p>
 
     <p>

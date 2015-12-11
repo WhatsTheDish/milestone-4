@@ -16,6 +16,7 @@ http://localhost:3000/createaccount.html
 
 <head>
 <title>What's The Dish</title>
+<link rel="stylesheet" href="css/styles.css">
 
 <script src="jquery-1.11.3.min.js"></script>
 
@@ -45,7 +46,7 @@ $(document).ready(function() {
       url: "recipes/",
       type: "POST",
       dataType : "text", // this URL returns a plain text string, not JSON
-      data : { title: $("#nameBox").val(), creator: localStorage["userName"],recipe: $("#recipe").val(), allergicToMilk: $("#allergicToMilk").is(":checked"), allergicToPeanut: $("#allergicToPeanut").is(":checked")
+      data : { title: $("#nameBox").val(), creator: localStorage["userName"],recipe: $("#recipe").val(), allergicToMilk: $("#allergicToMilk").is(":checked"), allergicToPeanut: $("#allergicToPeanut").is(":checked"), kosher: $("#kosher").is(":checked"), halaal: $("#halaal").is(":checked"), vegetarian: $("#vegetarian").is(":checked"), gluten: $("#gluten").is(":checked")
              },
       success: function( data ) {
         console.log("You received some data!", data);
@@ -74,6 +75,10 @@ $(document).ready(function() {
     Recipe: <input id="recipe" type="text" size="10"/><br>
     <input type="checkbox" id="allergicToMilk">Lactose Intollerent<br>
     <input type="checkbox" id="allergicToPeanut">Allergy to Peanuts<br>
+    <input type="checkbox" id="kosher">Kosher<br>
+    <input type="checkbox" id="halaal">Halaal<br>
+    <input type="checkbox" id="vegetarian">Vegetarian<br>
+    <input type="checkbox" id="gluten">Gluten Free<br>
     </p>
 
     <p>

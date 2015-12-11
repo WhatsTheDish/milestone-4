@@ -29,12 +29,14 @@ $(document).ready(function worker() {
             peanuts: localStorage["allergicToPeanuts"]
           },
       //params: 1;
+      //data:{test:4},
       dataType : "JSON", // this URL returns data in JSON format
      
 
       success: function( data ) {
         
         console.log("You received some data!", data);
+        console.log("You received some data!", data.title);
         if (data) {
           console.log("yes we have found recipes");
           
@@ -163,9 +165,6 @@ $("#kill").click(function() {
        </li> 
        <li>
         <a href="createrecipe.html">Create a new recipe for the world</a>
-       </li>
-       <li> 
-        <a href="searchbytitle.html">Search Recipes by title</a>
        </li>
        <li> 
           <a href="searchbytitle.html">Search for a recipe</a>
