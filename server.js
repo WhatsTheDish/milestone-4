@@ -214,6 +214,10 @@ app.get('/users/*', function (req, res) {
 app.get('/recipes', function (req, res) {
   var milkCheck = req.query.milk; 
   var peanutCheck = req.query.peanuts;
+  var kosherCheck = req.query.kosher;
+  var halaalCheck = req.query.halaal;
+  var vegCheck = req.query.vegetarian;
+  var glutenCheck = req.query.gluten;
   console.log(req.query.milk);
 
   //var test = req.params[0];
@@ -226,7 +230,13 @@ app.get('/recipes', function (req, res) {
   //console.log(req);
   //console.log("BLAH 2: " + req.body.title);
 
-  db.all("SELECT * FROM recipes WHERE allergicToMilk = '"+ milkCheck +"' AND allergicToPeanuts ='"+peanutCheck+"'",function(err, row){
+  db.all("SELECT * FROM recipes WHERE allergicToMilk = '"+ milkCheck +
+    "' AND allergicToPeanuts ='"+peanutCheck+
+    "' AND kosher ='"+kosherCheck +
+    "' AND halaal ='"+halaalCheck+
+    "' AND vegetarian ='"+vegCheck+
+    "' AND gluten ='"+glutenCheck +
+    "'",function(err, row){
     if(err) throw err;
     console.log(row);
     if(row == undefined){

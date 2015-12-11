@@ -26,7 +26,11 @@ $(document).ready(function worker() {
       url: "recipes/",
       type: "GET",
       data:{milk: localStorage["allergicToMilk"], 
-            peanuts: localStorage["allergicToPeanuts"]
+            peanuts: localStorage["allergicToPeanuts"],
+            kosher: localStorage["kosher"],
+            halaal: localStorage["halaal"],
+            vegetarian: localStorage["vegetarian"],
+            gluten: localStorage["gluten"]
           },
       //params: 1;
       //data:{test:4},
@@ -65,6 +69,26 @@ $(document).ready(function worker() {
 
             var peanutSpace = document.createElement("p");
             var peanutAllergy = document.createTextNode("Allergic to Peanuts?: " + data[i].allergicToPeanuts);
+            peanutSpace.appendChild(peanutAllergy);
+            document.getElementById("recipeDiv").appendChild(peanutSpace);
+
+            var peanutSpace = document.createElement("p");
+            var peanutAllergy = document.createTextNode("KOsher?: " + data[i].kosher);
+            peanutSpace.appendChild(peanutAllergy);
+            document.getElementById("recipeDiv").appendChild(peanutSpace);
+
+            var peanutSpace = document.createElement("p");
+            var peanutAllergy = document.createTextNode("halaal?: " + data[i].halaal);
+            peanutSpace.appendChild(peanutAllergy);
+            document.getElementById("recipeDiv").appendChild(peanutSpace);
+
+            var peanutSpace = document.createElement("p");
+            var peanutAllergy = document.createTextNode("vegetarian?: " + data[i].vegetarian);
+            peanutSpace.appendChild(peanutAllergy);
+            document.getElementById("recipeDiv").appendChild(peanutSpace);
+
+            var peanutSpace = document.createElement("p");
+            var peanutAllergy = document.createTextNode("gluten?: " + data[i].gluten);
             peanutSpace.appendChild(peanutAllergy);
             document.getElementById("recipeDiv").appendChild(peanutSpace);
 
