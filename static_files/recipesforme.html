@@ -39,35 +39,46 @@ $(document).ready(function worker() {
           console.log("yes we have found recipes");
           
           for(i = count; i < data.length; i++){
-            var p = document.createElement("p");
+            
+            var titleSpace = document.createElement("p");
+            titleSpace.setAttribute("id", "recipeTitle");  
             var title = document.createTextNode("Title: " + data[i].title);
-            p.appendChild(title);
-            document.getElementById("recipeDiv").appendChild(p);
+            titleSpace.appendChild(title);
+            document.getElementById("recipeDiv").appendChild(titleSpace);
 
-            var pp = document.createElement("p");
+            var creatorSpace = document.createElement("p");
             var creator = document.createTextNode("Creator: " + data[i].creator);
-            pp.appendChild(creator);
-            document.getElementById("recipeDiv").appendChild(pp);
+            creatorSpace.appendChild(creator);
+            document.getElementById("recipeDiv").appendChild(creatorSpace);
 
-            var ppp = document.createElement("p");
+            var recipeSpace = document.createElement("p");
             var recipe = document.createTextNode("Recipe: " + data[i].recipe);
-            ppp.appendChild(recipe);
-            document.getElementById("recipeDiv").appendChild(ppp);
+            recipeSpace.appendChild(recipe);
+            document.getElementById("recipeDiv").appendChild(recipeSpace);
 
-            var pppp = document.createElement("p");
-            var milkAllergy = document.createTextNode("Milk Allergy Friendly: " + data[i].allergicToMilk);
-            pppp.appendChild(milkAllergy);
-            document.getElementById("recipeDiv").appendChild(pppp);
+            var milkSpace = document.createElement("p");
+            var milkAllergy = document.createTextNode("Allergic to milk?: " + data[i].allergicToMilk);
+            milkSpace.appendChild(milkAllergy);
+            document.getElementById("recipeDiv").appendChild(milkSpace);
 
-            var ppppp = document.createElement("p");
-            var peanutAllergy = document.createTextNode("Peanut Allergy friendly: " + data[i].allergicToPeanuts);
-            ppppp.appendChild(peanutAllergy);
-            document.getElementById("recipeDiv").appendChild(ppppp);
+            var peanutSpace = document.createElement("p");
+            var peanutAllergy = document.createTextNode("Allergic to Peanuts?: " + data[i].allergicToPeanuts);
+            peanutSpace.appendChild(peanutAllergy);
+            document.getElementById("recipeDiv").appendChild(peanutSpace);
+
+            /*
+            var killButton = document.createElement("button");
+            recipeSpace.setAttribute("id", "kill");  
+            var killText = document.createTextNode("Delete this recipe");
+            killButton.appendChild(killText);
+            document.getElementById("recipeDiv").appendChild(killButton);
+            */
 
             var space = document.createElement("br");
             var nothing = document.createTextNode("");
             space.appendChild(nothing);
             document.getElementById("recipeDiv").appendChild(space);
+
             count++;
          }          
           setTimeout(worker, 1000);
@@ -82,25 +93,54 @@ $(document).ready(function worker() {
       },
     });
 
-  /*
-  console.log("Checking if logged in!");
-  if(localStorage["userName"] != null) {
-    setTimeout(function(){
-        window.location="http://localhost:3000/loggedin.html";
-    },0);
-  }
-  */
-  
+
+/*
+$("#kill").click(function() { 
+  console.log("wut");
+    $.ajax({
+      // The URL for the request -- note the simple REST API!
+      // all URLs are relative to http://localhost:3000/
+      url: "recipes/delete" 
+      type: "DELETE",
+      dataType : "text", // this URL returns a plain text string, not JSON
+      data : { name: $("#nameBox").val(), allergicToMilk: $("#allergicToMilk").is(":checked"), allergicToPeanut: $("#allergicToPeanut").is(":checked")
+             },
+      success: function( data ) {
+        console.log("You received some data!", data);
+        if (data == 'OK') {
+//Updated upstream
+          var k = "userName";
+          var v = $("#nameBox").val();
+          localStorage[k] = v; 
+
+          var kk = "allergicToPeanuts";
+          var vv = $("#allergicToPeanut").is(":checked");
+          localStorage[kk] = vv;
+
+          var kkk = "allergicToMilk";
+          var vvv = $("#allergicToMilk").is(":checked");
+          localStorage[kkk] = vvv;
+          //$("#create").html($("#nameBox").val() + ", this will be where you can now search through our recipes!");
+          $("#status").html("Successfully created a new user!");
+          setTimeout(function(){
+            window.location="http://localhost:3000/loggedin.html";
+          },2000);
+          //window.location("http://localhost:3000/shit.html");
+//Stashed changes
+        } 
+        else {
+          $("#status").html("Error: could not create a new user or user already exists!");
+        }
+      },
+    });
+  });
+*/
+ 
   // define a generic Ajax error handler:
   // http://api.jquery.com/ajaxerror/
-  $(document).ajaxError(function() {
+  $(document).ajaxError(function(){
     alert("Sorry, there was a problem!");
-  });
-
-    //console.log($("#nameBox").val());
-    // From: http://learn.jquery.com/ajax/jquery-ajax-methods/
-    // Using the core $.ajax() method
-    
+  });  
 });
 </script>
 
@@ -109,18 +149,28 @@ $(document).ready(function worker() {
   <h1>Welcome to What's The Dish!</h1>
   <h2>Recipes for me: <h2>
 
-
-    
-
     <!-- empty placeholders -->
-    <h5 id="recipeDiv"></h5>
+    <div id="recipeDiv">   
+    </div>
+
     <img id="profileImage" style="width: 300px;"/>
 
     <hr/>
-    <a href="loggedin.html">Return to my homepage</a>
-    <a href="createrecipe.html">Create a new recipe for the world!</a>
-    <a href="searchbytitle.html">Search Recipes by title!</a>
-    <a href="searchbytitle.html">Search for a recipe!</a>
+
+    <ul>
+      <li>
+        <a href="loggedin.html">Return to my homepage</a>
+       </li> 
+       <li>
+        <a href="createrecipe.html">Create a new recipe for the world</a>
+       </li>
+       <li> 
+        <a href="searchbytitle.html">Search Recipes by title</a>
+       </li>
+       <li> 
+          <a href="searchbytitle.html">Search for a recipe</a>
+       </li>   
+    </ul>
 
     <div id="status"></div>
   </body>

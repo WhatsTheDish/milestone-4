@@ -27,7 +27,7 @@ $(document).ready(function() {
       url: "recipes/",
       type: "GET",
       data:{milk: $("#allergicToMilk").is(":checked"), 
-            peanuts: $("#allergicToPeanuts").is(":checked")
+            peanuts: $("#allergicToPeanut").is(":checked")
           },
       //params: 1;
       dataType : "JSON", // this URL returns data in JSON format
@@ -122,12 +122,23 @@ $(document).ready(function() {
     <img id="profileImage" style="width: 300px;"/>
 
     <hr/>
-    <a href="loggedin.html">Return to my homepage</a>
-    <a href="createrecipe.html">Create a new recipe for the world!</a>
-    <br>
-    <a href="searchbytitle.html">Search Recipes by title!</a>
-    <a href="searchbycreator.html">Search Recipes by creator!</a>
-    <a href="searchbycontent.html">Search Recipes by content!</a>
+    <ul>
+    <li>
+      <a href="loggedin.html">Return to my homepage</a>
+    </li>
+    <li>  
+      <a href="createrecipe.html">Create a new recipe for the world</a>
+    </li>  
+    <li>
+      <a href="searchbytitle.html">Search Recipes by title</a>
+    </li>  
+    <li>
+      <a href="searchbycreator.html">Search Recipes by creator</a>
+    </li>
+    <li>  
+      <a href="searchbycontent.html">Search Recipes by content</a>
+    </li>  
+  </ul>
 
 
 
