@@ -16,6 +16,7 @@ http://localhost:3000/createaccount.html
 
 <head>
 <title>What's The Dish</title>
+<link rel="stylesheet" href="css/styles.css">
 
 <script src="jquery-1.11.3.min.js"></script>
 
@@ -45,7 +46,7 @@ $(document).ready(function() {
       url: "users/",
       type: "POST",
       dataType : "text", // this URL returns a plain text string, not JSON
-      data : { name: $("#nameBox").val(), allergicToMilk: $("#allergicToMilk").is(":checked"), allergicToPeanut: $("#allergicToPeanut").is(":checked")
+      data : { name: $("#nameBox").val(), password: $("#passwordBox").val(), allergicToMilk: $("#allergicToMilk").is(":checked"), allergicToPeanut: $("#allergicToPeanut").is(":checked"), kosher: $("#kosher").is(":checked"), halaal: $("#halaal").is(":checked"), vegetarian: $("#vegetarian").is(":checked"), gluten: $("#gluten").is(":checked"), 
              },
       success: function( data ) {
         console.log("You received some data!", data);
@@ -55,6 +56,10 @@ $(document).ready(function() {
           var v = $("#nameBox").val();
           localStorage[k] = v; 
 
+          //var k1 = "password";
+          //var v1 = $("passwordBox").val();
+          //localStorage[k1] = v1; 
+
           var kk = "allergicToPeanuts";
           var vv = $("#allergicToPeanut").is(":checked");
           localStorage[kk] = vv;
@@ -62,6 +67,22 @@ $(document).ready(function() {
           var kkk = "allergicToMilk";
           var vvv = $("#allergicToMilk").is(":checked");
           localStorage[kkk] = vvv;
+
+          var k2 = "kosher";
+          var v2 = $("#kosher").is(":checked");
+          localStorage[k2] = v2;
+
+          var k3 = "halaal";
+          var v3 = $("#halaal").is(":checked");
+          localStorage[k3] = v3;
+
+          var k4 = "vegetarian";
+          var v4 = $("#vegetarian").is(":checked");
+          localStorage[k4] = v4;
+
+          var k5 = "gluten";
+          var v5 = $("#gluten").is(":checked");
+          localStorage[k5] = v5;
           //$("#create").html($("#nameBox").val() + ", this will be where you can now search through our recipes!");
           $("#status").html("Successfully created a new user!");
           setTimeout(function(){
@@ -89,8 +110,13 @@ $(document).ready(function() {
 
     <p>
     UserName: <input id="nameBox" type="text" size="10"/><br>
+    Password: <input id="passwordBox" type="password" size="10"/><br>
     <input type="checkbox" id="allergicToMilk">Lactose Intollerent<br>
     <input type="checkbox" id="allergicToPeanut">Allergy to Peanuts<br>
+    <input type="checkbox" id="kosher">Kosher<br>
+    <input type="checkbox" id="halaal">Halaal<br>
+    <input type="checkbox" id="vegetarian">Vegetarian<br>
+    <input type="checkbox" id="gluten">Gluten Free<br>
     </p>
 
     <p>

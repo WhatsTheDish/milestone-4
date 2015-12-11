@@ -11,6 +11,7 @@ http://localhost:3000/createaccount.html
 
 <head>
 <title>What's The Dish</title>
+<link rel="stylesheet" href="css/styles.css">
 
 <script src="jquery-1.11.3.min.js"></script>
 
@@ -25,16 +26,24 @@ $(document).ready(function worker() {
       // all URLs are relative to http://localhost:3000/
       url: "recipes/",
       type: "GET",
+<<<<<<< Updated upstream
       data:{milk: localStorage["allergicToMilk"], 
             peanuts: localStorage["allergicToPeanuts"]
           },
       //params: 1;
+=======
+      data:{test:4},
+>>>>>>> Stashed changes
       dataType : "JSON", // this URL returns data in JSON format
      
 
       success: function( data ) {
+<<<<<<< Updated upstream
         
         console.log("You received some data!", data);
+=======
+        console.log("You received some data!", data.title);
+>>>>>>> Stashed changes
         if (data) {
           console.log("yes we have found recipes");
           
