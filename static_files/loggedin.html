@@ -135,12 +135,16 @@ $(document).ready(function() {
   <body>
   	<h1>Welcome to What's The Dish!</h1>
   	<div id ="loggedInAs"></div>
+    <button id="logoutButton">Log me out</button>
     <h2>My Current Allergies: </h2>
       <div id ="allergicToPeanuts"></div>
       <div id ="allergicToMilk"></div>
 
+      <h2>My Recipes:</h2>
+      <div id="recipeDiv"></div>
+
   	<p>
-      <button id="logoutButton">Log me out</button>
+      
     <h2> Update my Allergies: </h2>
       <input type="checkbox" id="allergicToMilk">Lactose Intollerent<br>
       <input type="checkbox" id="allergicToPeanut">Allergy to Peanuts<br>
@@ -151,6 +155,7 @@ $(document).ready(function() {
     <a href="createrecipe.html">Create a new recipe for the world!</a>
     <a href="searchbytitle.html">Search for a recipe!</a>
     <div id="status"></div>
+
   </body>
 </html>
 
